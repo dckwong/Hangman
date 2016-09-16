@@ -1,0 +1,20 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<center>
+			<h1>Hangman!</h1>
+
+			<form method="POST" action="/">
+				<input type="text" name="guess"/>
+				<input type="submit" />
+			</form>
+
+			<h2> <%= @@error_message %> </h2>
+			<h2> <%= session[:guessed_so_far].join(" ") %> </h2>
+			<h2> You've guessed so far <%= session[:guesses].join(", ") %> </h2>
+			<h2> You have <%= session[:guesses_left] %> guesses left! </h2>
+
+		</center>
+	</body>
+</html>
