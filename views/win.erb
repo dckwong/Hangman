@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<center>
+			<h1>Hangman!</h1>
+
+			<h1>Congratulations You Won! The word was <%=session[:correct_word] %> </h1>
+			<form method="GET" action="/newgame">
+				<input type="submit" value="New Game" />
+			</form>
+
+		</center>
+		<div>
+			<p class="enclose"><a href="https://github.com/dckwong">About me</a></p>
+		</div>
+	</body>
+</html>

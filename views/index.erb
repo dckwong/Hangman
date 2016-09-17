@@ -1,20 +1,32 @@
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
 		<center>
-			<h1>Hangman!</h1>
+			<div>
+				<h1>Hangman!</h1>
+				<form method="POST" action="/">
+					<input type="text" name="guess"/>
+					<input type="submit" value="Guess"/>
+				</form>
 
-			<form method="POST" action="/">
-				<input type="text" name="guess"/>
-				<input type="submit" />
-			</form>
-
-			<h2> <%= @@error_message %> </h2>
-			<h2> <%= session[:guessed_so_far].join(" ") %> </h2>
-			<h2> You've guessed so far <%= session[:guesses].join(", ") %> </h2>
-			<h2> You have <%= session[:guesses_left] %> guesses left! </h2>
-
+				<h2> <%= @@error_message %> </h2>
+				<h2> <%= session[:guessed_so_far].join(" ") %> </h2>
+				<h2> 	<% if !guesses_empty? %>
+						<%= "You've guessed so far " + session[:guesses].join(", ") %>
+						<% end %>
+				</h2>
+				<h2> You have <%= session[:guesses_left] %> guesses left! </h2>
+			
+		
+				<form method="GET" action="/newgame">
+					<input type="submit" value="Restart?">
+				</form>
+			</div>
 		</center>
+		<div>
+			<p class="enclose"><a href="https://github.com/dckwong">About me</a></p>
+		</div>
 	</body>
 </html>
