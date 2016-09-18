@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<title>Hangman!</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
@@ -11,7 +12,7 @@
 					<input type="submit" value="Guess"/>
 				</form>
 
-				<h2> <%= @@error_message %> </h2>
+				<h2> <%= session[:error_message] %> </h2>
 				<h2> <%= session[:guessed_so_far].join(" ") %> </h2>
 				<h2> 	<% if !guesses_empty? %>
 						<%= "You've guessed so far " + session[:guesses].join(", ") %>

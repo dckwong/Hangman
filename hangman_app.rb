@@ -10,7 +10,6 @@ get '/' do
 	if session[:game_over]|| session[:correct_word] == nil
 		redirect to '/newgame'
 	end
-	@@error_message = ""
 	@@guessed_letters_message = ""
 	check_game_status
 	erb :index
@@ -32,15 +31,19 @@ end
 
 post '/' do
 	@curr_guess = params['guess']
-	@@error_message = ""
+	session[:error_message] = ""
 	begin 
 		check_valid_length(@curr_guess)
 		check_if_repeat(@curr_guess)
+		check_if_letter(@curr_guess)
 	rescue TooManyLetters
-		@@error_message = "Only 1 letter!"
+		session[:error_message] = "Only 1 letter!"
 		redirect to "/"
 	rescue AlreadyGuessed
-		@@error_message = "You've already guessed that!"
+		session[:error_message] = "You've already guessed that!"
+		redirect to "/"
+	rescue NotALetter
+		session[:error_message] = "Letters only!"
 		redirect to "/"
 	else
 		register_guess
@@ -55,7 +58,7 @@ end
 
 helpers do 
 	def set_up_new_game
-		@@error_message = ""
+		session[:error_message] = ""
 		session[:guesses_left] = 7
 		session[:game_over] = false
 		session[:guesses] = []
@@ -97,8 +100,12 @@ helpers do
 		raise AlreadyGuessed if session[:guesses].include?(guess)
 	end
 
+	def check_if_letter(guess)
+		raise NotALetter unless params['guess'] =~ /[[:alpha:]]/
+	end
+
 	def register_guess
-		session[:guesses] << @curr_guess 
+		session[:guesses] << @curr_guess.downcase 
 		session[:guess] = session[:guesses][-1]
 		session[:guessed_so_far], session[:correct_guess] = check_guess(session[:guess])
 		session[:guesses_left] -= 1 unless session[:correct_guess] 
